@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.forge.autophone">
+
+    <!-- Forge OS integration permission -->
+    <uses-permission android:name="com.forge.os.permission.USE_API" />
+
+    <!-- Required to query the Forge OS package and resolve app labels -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Vibrate on action feedback -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- NotificationListenerService needs BIND_NOTIFICATION_LISTENER_SERVICE;
+         the actual "Notification access" is granted by the user in Settings -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Only callers with this permission can bind to IAutoPhoneService -->
+    <permission
+        android:name="com.forge.autophone.permission.CONTROL"
+        android:protectionLevel="signature|privileged" />
+
+    <application
+        android:name=".AutoPhoneApp"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.ForgeAutoPhone"
+        android:allowBackup="false"
+        android:supportsRtl="true">
+
+        <!-- Main UI activity -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- AccessibilityService — phone control engine (tap, scroll, type, etc.) -->
+        <service
+            android:name=".service.AutoPhoneAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!--
+            NotificationListenerService — intercepts all status-bar notifications
+            so Forge OS can read, dismiss, and reply to them.
+
+            The user must grant "Notification access" in:
+            Settings → Apps & notifications → Special app access → Notification access
+            (or Settings → Notifications → Notification access on some OEMs)
+        -->
+        <service
+            android:name=".service.AutoPhoneNotificationService"
+            android:exported="true"
+            android:label="Forge AutoPhone Notifications"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.notification"
+                android:resource="@xml/notification_listener_config" />
+        </service>
+
+        <!-- IAutoPhoneService AIDL endpoint — Forge OS binds here for all commands -->
+        <service
+            android:name=".service.AutoPhoneBinderService"
+            android:exported="true"
+            android:permission="com.forge.autophone.permission.CONTROL">
+            <intent-filter>
+                <action android:name="com.forge.autophone.IAutoPhoneService" />
+            </intent-filter>
+        </service>
+
+        <!--
+            Forge Bridge endpoint — exposes ALL AutoPhone tools through the
+            universal IForgeBridgeService protocol.
+
+            Forge OS auto-discovers this service via the TOOL_PROVIDER action
+            and dynamically registers all declared tools — no Forge OS source
+            changes needed. Any third-party app can follow this same pattern.
+
+            Permission: Forge OS must hold com.forge.os.permission.USE_API
+            (declared in the Forge OS manifest) to bind here.
+        -->
+        <service
+            android:name=".service.ForgeBridgeServiceImpl"
+            android:exported="true"
+            android:permission="com.forge.os.permission.USE_API">
+            <intent-filter>
+                <action android:name="com.forge.os.bridge.TOOL_PROVIDER" />
+            </intent-filter>
+        </service>
+
+    </application>
+</manifest>

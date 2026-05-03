@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ForgeAutoPhone" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/forge_orange</item>
+        <item name="colorPrimaryVariant">@color/forge_orange_dark</item>
+        <item name="colorOnPrimary">@color/forge_on_surface</item>
+        <item name="colorSurface">@color/forge_surface</item>
+        <item name="colorOnSurface">@color/forge_on_surface</item>
+        <item name="android:windowBackground">@color/forge_bg</item>
+        <item name="android:statusBarColor">@color/forge_bg</item>
+        <item name="android:navigationBarColor">@color/forge_surface</item>
+    </style>
+</resources>

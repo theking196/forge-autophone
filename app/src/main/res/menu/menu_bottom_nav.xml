@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/setupFragment"
+        android:icon="@drawable/ic_setup"
+        android:title="@string/nav_setup" />
+    <item android:id="@+id/dashboardFragment"
+        android:icon="@drawable/ic_dashboard"
+        android:title="@string/nav_dashboard" />
+    <item android:id="@+id/schedulesFragment"
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/nav_schedules" />
+    <item android:id="@+id/actionLogFragment"
+        android:icon="@drawable/ic_log"
+        android:title="@string/nav_log" />
+    <item android:id="@+id/toolTesterFragment"
+        android:icon="@drawable/ic_tools"
+        android:title="@string/nav_tools" />
+</menu>

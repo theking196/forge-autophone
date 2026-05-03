@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    NotificationListenerService meta-data.
+    Setting android:settingsActivity points Android's "Notification access"
+    settings page back to our app, but is optional. The key tag here is
+    "android.service.notification" matching the manifest meta-data name.
+-->
+<notification-listener
+    xmlns:android="http://schemas.android.com/apk/res/android" />

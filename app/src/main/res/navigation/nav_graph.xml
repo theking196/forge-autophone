@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/setupFragment">
+
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.forge.autophone.ui.setup.SetupFragment"
+        android:label="Setup" />
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.forge.autophone.ui.dashboard.DashboardFragment"
+        android:label="Dashboard" />
+
+    <fragment
+        android:id="@+id/schedulesFragment"
+        android:name="com.forge.autophone.ui.schedules.SchedulesFragment"
+        android:label="Schedules" />
+
+    <!--
+        Navigated to via Bundle args: arguments["scheduleId"] = id or absent for new.
+        Not in bottom nav — reached via SchedulesFragment FAB / row tap.
+    -->
+    <fragment
+        android:id="@+id/scheduleEditorFragment"
+        android:name="com.forge.autophone.ui.schedules.ScheduleEditorFragment"
+        android:label="Schedule Editor" />
+
+    <fragment
+        android:id="@+id/actionLogFragment"
+        android:name="com.forge.autophone.ui.log.ActionLogFragment"
+        android:label="Action Log" />
+
+    <fragment
+        android:id="@+id/toolTesterFragment"
+        android:name="com.forge.autophone.ui.tools.ToolTesterFragment"
+        android:label="Tool Tester" />
+
+</navigation>

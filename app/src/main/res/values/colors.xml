@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="forge_orange">#FF4500</color>
+    <color name="forge_orange_dark">#CC3700</color>
+    <color name="forge_blue">#007AFF</color>
+    <color name="forge_green">#34C759</color>
+    <color name="forge_red">#FF3B30</color>
+    <color name="forge_yellow">#FFB800</color>
+
+    <!-- Surface hierarchy -->
+    <color name="forge_bg">#0A0A0A</color>
+    <color name="forge_surface">#111111</color>
+    <color name="forge_surface_variant">#1A1A1A</color>
+    <color name="forge_border">#222222</color>
+
+    <!-- Text -->
+    <color name="forge_on_surface">#FFFFFF</color>
+    <color name="forge_on_surface_variant">#888888</color>
+    <color name="forge_on_surface_muted">#444444</color>
+</resources>

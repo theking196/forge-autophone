@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/forge_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- App header -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="16dp" android:layout_marginBottom="24dp">
+            <TextView android:layout_width="40dp" android:layout_height="40dp"
+                android:gravity="center" android:text="⚡" android:textSize="22sp"
+                android:background="@drawable/bg_icon_orange" android:layout_marginEnd="12dp" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Forge AutoPhone" android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/forge_on_surface" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="3 steps to activate" android:textSize="12sp"
+                    android:textColor="@color/forge_on_surface_variant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Step 1 — Accessibility -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@color/forge_surface" app:cardCornerRadius="16dp"
+            app:cardElevation="0dp" app:strokeColor="@color/forge_orange" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Step 1 · Enable Accessibility" android:textSize="14sp"
+                    android:textStyle="bold" android:textColor="@color/forge_on_surface"
+                    android:layout_marginBottom="6dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/step1_desc" android:textSize="12sp"
+                    android:textColor="@color/forge_on_surface_variant" android:lineSpacingExtra="3dp"
+                    android:layout_marginBottom="10dp" />
+                <TextView android:id="@+id/step1_status" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Not enabled"
+                    android:textSize="12sp" android:textColor="@color/forge_on_surface_variant"
+                    android:layout_marginBottom="10dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_accessibility"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/step1_btn" app:backgroundTint="@color/forge_orange" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Step 2 — Notification Access -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@color/forge_surface" app:cardCornerRadius="16dp"
+            app:cardElevation="0dp" app:strokeColor="@color/forge_border" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Step 2 · Grant Notification Access" android:textSize="14sp"
+                    android:textStyle="bold" android:textColor="@color/forge_on_surface"
+                    android:layout_marginBottom="6dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Forge AutoPhone needs Notification Access so the Forge OS agent can read, dismiss, and reply to messages, emails, and alerts on your behalf."
+                    android:textSize="12sp" android:textColor="@color/forge_on_surface_variant"
+                    android:lineSpacingExtra="3dp" android:layout_marginBottom="10dp" />
+                <TextView android:id="@+id/step2_status" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Not granted"
+                    android:textSize="12sp" android:textColor="@color/forge_on_surface_variant"
+                    android:layout_marginBottom="10dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_notif_settings"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Open Notification Access Settings" android:enabled="false"
+                    app:backgroundTint="@color/forge_blue" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Step 3 — Connect Forge OS -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@color/forge_surface" app:cardCornerRadius="16dp"
+            app:cardElevation="0dp" app:strokeColor="@color/forge_border" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Step 3 · Connect to Forge OS" android:textSize="14sp"
+                    android:textStyle="bold" android:textColor="@color/forge_on_surface"
+                    android:layout_marginBottom="6dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/step2_desc" android:textSize="12sp"
+                    android:textColor="@color/forge_on_surface_variant" android:lineSpacingExtra="3dp"
+                    android:layout_marginBottom="10dp" />
+                <TextView android:id="@+id/step3_status" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="Waiting…"
+                    android:textSize="12sp" android:textColor="@color/forge_on_surface_variant"
+                    android:layout_marginBottom="10dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_connect_forge"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="@string/step2_btn" android:enabled="false"
+                    app:backgroundTint="@color/forge_blue" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Ready banner -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tv_ready_banner"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardBackgroundColor="#0A34C759" app:cardCornerRadius="16dp"
+            app:cardElevation="0dp" app:strokeColor="#4034C759" app:strokeWidth="1dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="✓ AutoPhone is ready. Forge OS can now read, dismiss, and reply to notifications — and control your phone autonomously."
+                android:textSize="13sp" android:textColor="@color/forge_green"
+                android:gravity="center" android:lineSpacingExtra="3dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

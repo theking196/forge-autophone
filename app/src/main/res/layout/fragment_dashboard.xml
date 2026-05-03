@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/forge_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginTop="12dp" android:layout_marginBottom="14dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="AutoPhone" android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/forge_on_surface" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- System status card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            app:cardBackgroundColor="@color/forge_surface"
+            app:cardCornerRadius="14dp" app:cardElevation="0dp"
+            app:strokeColor="@color/forge_border" app:strokeWidth="1dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="14dp">
+                <TextView android:id="@+id/tv_banner"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/banner_ok" android:textSize="13sp" android:textStyle="bold"
+                    android:textColor="@color/forge_green" android:layout_marginBottom="6dp" />
+                <TextView android:id="@+id/tv_acc_status"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Accessibility · Off" android:textSize="11sp"
+                    android:textColor="@color/forge_on_surface_variant" android:layout_marginBottom="2dp" />
+                <TextView android:id="@+id/tv_forge_status"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Forge OS · Disconnected" android:textSize="11sp"
+                    android:textColor="@color/forge_on_surface_variant" android:layout_marginBottom="2dp" />
+                <TextView android:id="@+id/tv_notif_status"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Notifications · Off" android:textSize="11sp"
+                    android:textColor="@color/forge_on_surface_variant" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Stats row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginBottom="14dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginEnd="6dp"
+                app:cardBackgroundColor="@color/forge_surface"
+                app:cardCornerRadius="14dp" app:cardElevation="0dp"
+                app:strokeColor="@color/forge_border" app:strokeWidth="1dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="14dp">
+                    <TextView android:id="@+id/tv_stat_actions" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textSize="28sp" android:textStyle="bold"
+                        android:textColor="@color/forge_orange" android:letterSpacing="-0.02" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/stat_actions" android:textSize="11sp"
+                        android:textColor="@color/forge_on_surface_variant" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginStart="6dp"
+                app:cardBackgroundColor="@color/forge_surface"
+                app:cardCornerRadius="14dp" app:cardElevation="0dp"
+                app:strokeColor="@color/forge_border" app:strokeWidth="1dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="14dp">
+                    <TextView android:id="@+id/tv_stat_success" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="—"
+                        android:textSize="28sp" android:textStyle="bold"
+                        android:textColor="@color/forge_green" android:letterSpacing="-0.02" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/stat_success" android:textSize="11sp"
+                        android:textColor="@color/forge_on_surface_variant" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- ── Live Notifications ──────────────────────────────────────── -->
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LIVE NOTIFICATIONS" android:textSize="10sp" android:textStyle="bold"
+                android:letterSpacing="0.1" android:textColor="@color/forge_on_surface_variant" />
+        </LinearLayout>
+
+        <!-- Grant access prompt -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_grant_notif_access"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Grant Notification Access"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            app:strokeColor="@color/forge_orange"
+            android:textColor="@color/forge_orange" />
+
+        <!-- Empty state: listener active but no notifications -->
+        <TextView android:id="@+id/tv_notif_empty"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="No notifications right now"
+            android:textSize="11sp" android:textColor="@color/forge_on_surface_muted"
+            android:gravity="center" android:padding="12dp"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Notifications RecyclerView (max 10 shown) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"
+            android:layout_marginBottom="14dp" />
+
+        <!-- ── Recent Actions ──────────────────────────────────────────── -->
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/label_recent" android:textSize="10sp" android:textStyle="bold"
+            android:letterSpacing="0.1"
+            android:textColor="@color/forge_on_surface_variant" android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_recent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

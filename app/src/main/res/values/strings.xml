@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Forge AutoPhone</string>
+
+    <string name="accessibility_description">Forge AutoPhone lets the Forge OS AI agent interact with your phone — tapping, scrolling, typing, and launching apps — so it can complete tasks on your behalf.</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_setup">Setup</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_schedules">Schedules</string>
+    <string name="nav_log">Log</string>
+    <string name="nav_tools">Tools</string>
+
+    <!-- Setup screen -->
+    <string name="step1_desc">AutoPhone needs Android Accessibility permission to read your screen and perform gestures. Tap below to open Settings, find Forge AutoPhone, and toggle it on.</string>
+    <string name="step1_btn">Open Accessibility Settings</string>
+    <string name="step2_desc">AutoPhone binds to Forge OS (com.forge.os) so the agent can send it commands. Forge OS must be installed and have the External API enabled.</string>
+    <string name="step2_btn">Connect to Forge OS</string>
+
+    <!-- Dashboard -->
+    <string name="banner_ok">✓ All systems operational</string>
+    <string name="stat_actions">Actions today</string>
+    <string name="stat_success">Success rate</string>
+    <string name="label_recent">Recent actions</string>
+
+    <!-- Schedules -->
+    <string name="schedules_empty">No schedules yet.\nTap + to create your first automation plan.</string>
+
+    <!-- Log -->
+    <string name="log_empty">No actions recorded yet.\nRun a tool or let Forge OS act autonomously.</string>
+
+    <!-- Tool tester -->
+    <string name="tool_tester_hint">Select a tool above and tap Run</string>
+    <string name="btn_run">Run tool</string>
+</resources>
