@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.forge.autophone.AutoPhoneApp
+import com.forge.autophone.data.ForgeOsConnection
 import com.forge.autophone.data.ForgeOsState
 import com.forge.autophone.databinding.FragmentSetupBinding
+import com.forge.autophone.ui.MainActivity
 import com.forge.autophone.service.AutoPhoneAccessibilityService
 import com.forge.autophone.service.AutoPhoneNotificationService
 import kotlinx.coroutines.delay
@@ -80,6 +82,9 @@ class SetupFragment : Fragment() {
         // Re-check after user returns from any Settings screen
         viewLifecycleOwner.lifecycleScope.launch {
             delay(400)
+            if (ForgeOsConnection.hasForgeOsUseApiPermission(requireContext())) {
+                container.forgeOs.bind()
+            }
             refreshStatus()
         }
     }
@@ -109,8 +114,15 @@ class SetupFragment : Fragment() {
             !accOk || !notifOk                    -> "Complete Steps 1 & 2 first"
             forgeState == ForgeOsState.CONNECTED   -> "✓ Forge OS connected"
             forgeState == ForgeOsState.CONNECTING  -> "Connecting…"
-            forgeState == ForgeOsState.UNAVAILABLE -> "Forge OS not installed"
-            else                                   -> "Not connected"
+            forgeState == ForgeOsState.UNAVAILABLE -> when {
+                !ForgeOsConnection.isForgeOsInstalled(requireContext()) ->
+                    "Forge OS app is not installed (com.forge.os)"
+                !ForgeOsConnection.hasForgeOsUseApiPermission(requireContext()) ->
+                    "Allow Forge OS API permission — tap Connect (system dialog)"
+                else ->
+                    "Cannot reach Forge OS — open Forge OS → Hub → External API → enable and approve AutoPhone"
+            }
+            else                                   -> "Not connected — tap Connect"
         }
         binding.step3Status.setTextColor(if (forgeOk) green() else muted())
 

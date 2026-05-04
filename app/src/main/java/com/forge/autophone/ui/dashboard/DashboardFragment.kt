@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.forge.autophone.AutoPhoneApp
 import com.forge.autophone.data.CapturedNotification
+import com.forge.autophone.data.ForgeOsConnection
 import com.forge.autophone.data.ForgeOsState
 import com.forge.autophone.databinding.FragmentDashboardBinding
 import com.forge.autophone.service.AutoPhoneAccessibilityService
@@ -85,7 +86,14 @@ class DashboardFragment : Fragment() {
                 binding.tvForgeStatus.text = when (state) {
                     ForgeOsState.CONNECTED    -> "Forge OS · Connected"
                     ForgeOsState.CONNECTING   -> "Forge OS · Connecting…"
-                    ForgeOsState.UNAVAILABLE  -> "Forge OS · Not installed"
+                    ForgeOsState.UNAVAILABLE  -> when {
+                        !ForgeOsConnection.isForgeOsInstalled(requireContext()) ->
+                            "Forge OS · Not installed"
+                        !ForgeOsConnection.hasForgeOsUseApiPermission(requireContext()) ->
+                            "Forge OS · Allow API permission (permission dialog)"
+                        else ->
+                            "Forge OS · Unreachable (enable External API in Forge OS)"
+                    }
                     ForgeOsState.DISCONNECTED -> "Forge OS · Disconnected"
                 }
                 binding.tvForgeStatus.setTextColor(statusColor(ok))
