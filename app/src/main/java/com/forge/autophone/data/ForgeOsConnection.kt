@@ -23,7 +23,7 @@ enum class ForgeOsState { DISCONNECTED, CONNECTING, CONNECTED, UNAVAILABLE }
 
 /**
  * Manages the AIDL binder lifecycle with Forge OS for status queries.
- * AutoPhone reads [service] to call getApiVersion() / isReady() on the
+ * AutoPhone reads [service] to call getApiVersion() on the
  * Status screen. It does NOT use Forge OS as a command dispatcher — that
  * relationship is reversed (Forge OS calls AutoPhone via IAutoPhoneService).
  */
@@ -39,7 +39,7 @@ class ForgeOsConnection(private val context: Context) {
         override fun onServiceConnected(name: ComponentName, binder: IBinder) {
             service = IForgeOsService.Stub.asInterface(binder)
             _state.value = ForgeOsState.CONNECTED
-            Log.i(TAG, "Forge OS connected — API v${runCatching { service?.apiVersion }.getOrNull()}")
+            Log.i(TAG, "Forge OS connected — API ${runCatching { service?.apiVersion }.getOrNull()}")
         }
         override fun onServiceDisconnected(name: ComponentName) {
             service = null

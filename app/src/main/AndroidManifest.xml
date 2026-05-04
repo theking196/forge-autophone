@@ -17,10 +17,12 @@
          the actual "Notification access" is granted by the user in Settings -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- Only callers with this permission can bind to IAutoPhoneService -->
+    <!-- Lets Forge OS bind to IAutoPhoneService (dangerous — user approves in system UI). -->
     <permission
         android:name="com.forge.autophone.permission.CONTROL"
-        android:protectionLevel="signature|privileged" />
+        android:label="@string/perm_control_label"
+        android:description="@string/perm_control_desc"
+        android:protectionLevel="dangerous" />
 
     <application
         android:name=".AutoPhoneApp"

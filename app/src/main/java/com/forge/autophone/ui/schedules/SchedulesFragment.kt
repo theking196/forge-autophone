@@ -1,6 +1,8 @@
 package com.forge.autophone.ui.schedules
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.forge.autophone.AutoPhoneApp
 import com.forge.autophone.R
 import com.forge.autophone.data.Schedule
+import com.forge.os.api.IForgeOsCallback
 import com.forge.autophone.databinding.FragmentSchedulesBinding
 import com.forge.autophone.service.AutoPhoneAccessibilityService
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Screen 3 — Schedules
@@ -105,25 +111,70 @@ class SchedulesFragment : Fragment() {
     }
 
     private fun runNow(schedule: Schedule) {
-        // In production this calls IForgeOsService.askAgent(schedule.actionPlan).
-        // Forge OS will then call back notifyScheduleStarted → notifyScheduleCompleted
-        // which drives the live running indicator automatically.
-        // For now we simulate the "started" state so the UI demonstrates the flow.
+        val app = requireActivity().application as AutoPhoneApp
+        val forgeOs = app.container.forgeOs
+
         repo.markRunning(schedule.id, schedule.actionPlan.take(40))
 
-        (requireActivity().application as AutoPhoneApp).container.actionLog.record(
-            tool       = "schedule_run",
-            args       = schedule.name,
-            ok         = true,
-            output     = "Plan sent to Forge OS",
-            durationMs = 0,
-        )
+        val svc = forgeOs.service
+        if (svc == null) {
+            repo.markCompleted(schedule.id, false, "Forge OS not connected — finish Setup step 3")
+            Snackbar.make(binding.root, "Forge OS not connected. Open AutoPhone Setup.", Snackbar.LENGTH_LONG).show()
+            return
+        }
 
-        Snackbar.make(binding.root, "Plan sent — waiting for Forge OS…", Snackbar.LENGTH_LONG)
-            .setAction("Simulate done") {
-                repo.markCompleted(schedule.id, ok = true, result = "Completed successfully")
+        val finished = AtomicBoolean(false)
+        val handler = Handler(Looper.getMainLooper())
+        val timeout = Runnable {
+            lifecycleScope.launch {
+                if (finished.compareAndSet(false, true)) {
+                    repo.markCompleted(schedule.id, false, "Timed out after 10 min (no response from Forge OS)")
+                }
             }
-            .show()
+        }
+        handler.postDelayed(timeout, 10 * 60_000L)
+
+        fun finish(ok: Boolean, msg: String) {
+            lifecycleScope.launch {
+                if (finished.compareAndSet(false, true)) {
+                    handler.removeCallbacks(timeout)
+                    repo.markCompleted(schedule.id, ok, msg)
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                svc.askAgent(
+                    schedule.actionPlan,
+                    "{}",
+                    object : IForgeOsCallback.Stub() {
+                        override fun onChunk(text: String?) {}
+                        override fun onResult(jsonResult: String?) {
+                            finish(true, jsonResult?.take(4000) ?: "Done")
+                        }
+                        override fun onError(code: Int, message: String?) {
+                            finish(false, message ?: "Forge OS error ($code)")
+                        }
+                    },
+                )
+                withContext(Dispatchers.Main) {
+                    app.container.actionLog.record(
+                        tool = "schedule_run",
+                        args = schedule.name,
+                        ok = true,
+                        output = "askAgent dispatched to Forge OS",
+                        durationMs = 0,
+                    )
+                    Snackbar.make(binding.root, "Plan sent to Forge OS agent…", Snackbar.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                finish(false, e.message ?: "askAgent failed")
+                withContext(Dispatchers.Main) {
+                    Snackbar.make(binding.root, "Could not reach Forge OS: ${e.message}", Snackbar.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

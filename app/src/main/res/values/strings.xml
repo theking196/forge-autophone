@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">Forge AutoPhone</string>
 
+    <string name="perm_control_label">Control Forge AutoPhone</string>
+    <string name="perm_control_desc">Allows Forge OS to send taps, read the screen, and manage notifications through AutoPhone.</string>
+
     <string name="accessibility_description">Forge AutoPhone lets the Forge OS AI agent interact with your phone — tapping, scrolling, typing, and launching apps — so it can complete tasks on your behalf.</string>
 
     <!-- Bottom nav -->
