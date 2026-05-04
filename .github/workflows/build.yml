@@ -15,16 +15,25 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install compileSdk 34 packages
+        run: sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
+
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: ./gradlew assembleDebug --stacktrace --no-daemon --info
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
 
       - name: Upload APK
         if: success()
