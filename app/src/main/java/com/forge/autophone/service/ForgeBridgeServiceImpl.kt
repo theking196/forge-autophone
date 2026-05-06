@@ -4,11 +4,14 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.os.RemoteException
+import android.util.Log
 import com.forge.autophone.AutoPhoneApp
 import com.forge.os.bridge.IForgeBridgeCallback
 import com.forge.os.bridge.IForgeBridgeService
 import org.json.JSONArray
 import org.json.JSONObject
+
+private const val TAG = "ForgeBridgeServiceImpl"
 
 /**
  * Forge AutoPhone — Forge Bridge implementation.
@@ -42,9 +45,18 @@ class ForgeBridgeServiceImpl : Service() {
     private val notifRepo get() =
         (application as AutoPhoneApp).container.notificationRepo
 
-    override fun onBind(intent: Intent?): IBinder = binder
+    override fun onBind(intent: Intent?): IBinder {
+        Log.i(TAG, "Forge Bridge service bound")
+        return binder
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.i(TAG, "Forge Bridge service created")
+    }
 
     override fun onDestroy() {
+        Log.i(TAG, "Forge Bridge service destroying")
         runCatching { forgeCallback?.onBridgeDisconnecting("AutoPhone service stopped") }
         super.onDestroy()
     }
@@ -60,19 +72,29 @@ class ForgeBridgeServiceImpl : Service() {
             put("description", "Autonomous Android phone control via Accessibility: tap, type, swipe, read screen, manage notifications")
         }.toString()
 
-        override fun getToolManifest(): String = buildManifestJson()
+        override fun getToolManifest(): String {
+            Log.d(TAG, "getToolManifest called")
+            return buildManifestJson()
+        }
 
         override fun dispatch(toolName: String, argsJson: String): String {
+            Log.d(TAG, "dispatch called: $toolName with args: ${argsJson.take(100)}")
             val args = runCatching { JSONObject(argsJson ?: "{}") }.getOrElse { JSONObject() }
             return runCatching { routeTool(toolName, args) }
+                .onFailure { e -> Log.e(TAG, "dispatch failed for $toolName", e) }
                 .getOrElse { e -> err(e.message ?: "unknown error") }
         }
 
         override fun setCallback(callback: IForgeBridgeCallback?) {
+            Log.d(TAG, "setCallback called")
             forgeCallback = callback
         }
 
-        override fun isReady(): Boolean = acc != null || notifSvc != null
+        override fun isReady(): Boolean {
+            val ready = acc != null || notifSvc != null
+            Log.d(TAG, "isReady: $ready (acc=${acc != null}, notifSvc=${notifSvc != null})")
+            return ready
+        }
     }
 
     // ── Tool manifest ─────────────────────────────────────────────────────────
